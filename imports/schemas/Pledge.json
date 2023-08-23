@@ -110,10 +110,10 @@
           "donorOrganisation":"{{donorOrganisation}}",
           "pledge": {
             "type": "OnestPledge",
-            "causeType":  "{{causeType}}",
-            "causeId":"{{causeId}}",
-            "causeName": "{{causeName}}",
-            "organisation": "{{organisation}}",
+            "causeType":  "{{causeDetails.causeType}}",
+            "causeId":"{{causeDetails.causeId}}",
+            "causeName": "{{causeDetails.causeName}}",
+            "organisation": "{{causeDetails.organisation}}",
             "amountPledged": "{{amountForPledge}}"
           }
         },
@@ -126,7 +126,7 @@
         "anonymous"
       ],
       "certificateTemplates": {
-        "english_portrait": "https://raw.githubusercontent.com/Sunbird-RC/demo-donor-registry/main/pledgecertificates/portrait_templates_v2/Urdu_portrait_"
+        "english_portrait": "https://raw.githubusercontent.com/Sreejit-K/onest-demo/master/templates/onest_pledge.pdf"
       }
     }
   }
