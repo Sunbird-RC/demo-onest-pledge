@@ -1,0 +1,68 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "type": "object",
+  "properties": {
+    "Donor": {
+      "$ref": "#/definitions/Donor"
+    }
+  },
+  "required": [
+    "Donor"
+  ],
+  "title":"Donor",
+  "definitions": {
+    "Donor": {
+      "$id": "#/properties/Donor",
+      "type": "object",
+      "title": "The Donor Schema",
+      "required": [
+          "email",
+          "name",
+          "mobileNumber"
+      ],
+      "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "email": {
+            "type": "string",
+            "title": "email"
+          },
+          "mobileNumber": {
+            "type": "string",
+            "title": "mobile number"
+          },
+          "organisation": {
+            "type": "string",
+            "title": "Name of the organisation"
+          },
+          "amountPledged": {
+            "type": "string",
+            "title": "Amount Pledged"
+          }
+    }
+  }
+},
+"_osConfig": {
+  "enableSearch": "true",
+  "privateFields": [],
+  "uniqueIndexFields": ["email"],
+  "systemFields": [
+    "_osCreatedAt",
+    "_osUpdatedAt",
+    "_osCreatedBy",
+    "_osUpdatedBy"
+  ],
+  "inviteRoles":["anonymous"],
+  "roles": ["anonymous"],
+  "enableLogin": true,
+  "ownershipAttributes": [
+    {
+      "email": "/email",
+      "mobile": "/mobileNumber",
+      "userId": "/email"
+    }
+  ]
+}
+}

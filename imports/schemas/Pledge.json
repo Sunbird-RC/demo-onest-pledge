@@ -1,0 +1,133 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "type": "object",
+    "properties": {
+      "Pledge": {
+        "$ref": "#/definitions/Pledge"
+      }
+    },
+    "required": [
+      "Pledge"
+    ],
+    "title": "Pledge",
+    "definitions": {
+      "Pledge": {
+        "$id": "#/properties/Pledge",
+        "type": "object",
+        "title": "The Pledge Schema",
+        "required": [
+          "donorName",
+          "mobileNumber",
+          "email",
+          "amountForPledge",
+          "causeDetails"
+        ],
+        "properties": {
+            "donorName": {
+                "type": "string",
+                "title": "Name"
+            },
+            "donorId": {
+                "type": "string",
+                "title": "donor Id"
+            },
+            "causeId": {
+              "type": "string",
+              "title": "osId of the cause"
+            },
+            "email": {
+                "type": "string",
+                "title": "email"
+            },
+            "mobileNumber": {
+                "type": "string",
+                "title": "mobile number"
+            },
+            "donorOrganisation": {
+                "type": "string",
+                "title": "Name of the organisation donor belongs to"
+            },
+            "amountForPledge": {
+                "type": "string",
+                "title": "Amount Pledged"
+            },
+            "causeDetails": {
+                "type": "object",
+                "properties": {
+                  "causeId": {
+                    "type": "string",
+                    "title": "osId of the cause"
+                  },
+                  "causeName": {
+                    "type": "string",
+                    "title": "causeName"
+                  },
+                  "causeType":{
+                    "type": "string",
+                    "title": "Cause type"
+                  },
+                  "organisation": {
+                    "type": "string",
+                    "title": "Name of the organisation"
+                  }
+                }
+            }
+        }
+      }
+    },
+    "_osConfig": {
+      "enableSearch": "true",
+      "indexFields": [],
+      "uniqueIndexFields": [        
+        "$.donorId",
+        "$.donorName",
+        "$.causeDetails.causeId",
+        "$.email"
+      ],
+      "systemFields": [
+        "osCreatedAt",
+        "osUpdatedAt",
+        "osCreatedBy",
+        "osUpdatedBy"
+      ],
+      "credentialTemplate": {
+        "@context": [
+          "https://www.w3.org/2018/credentials/v1",
+          "https://raw.githubusercontent.com/Sreejit-K/onest-demo/master/context/vc-context.json"
+        ],
+        "type": [
+          "VerifiableCredential",
+          "ProofOfOrganPledge"
+        ],
+        "id": "https://dev-donor-registry.abdm.gov.in/pledgecredentials/{{osid}}",
+        "issuer": "https://dev-donor-registry.abdm.gov.in",
+        "issuanceDate": "{{osCreatedAt}}",
+        "credentialSubject": {
+          "type": "Person",
+          "id": "did:onestPledge:{{osid}}",
+          "donorId": "{{donorId}}",
+          "donorName": "{{donorName}}",
+          "donorOrganisation":"{{donorOrganisation}}",
+          "pledge": {
+            "type": "OnestPledge",
+            "causeType":  "{{causeType}}",
+            "causeId":"{{causeId}}",
+            "causeName": "{{causeName}}",
+            "organisation": "{{organisation}}",
+            "amountPledged": "{{amountForPledge}}"
+          }
+        },
+        "nonTransferable": "true"
+      },
+      "inviteRoles": [
+        "anonymous"
+      ],
+      "roles": [
+        "anonymous"
+      ],
+      "certificateTemplates": {
+        "english_portrait": "https://raw.githubusercontent.com/Sunbird-RC/demo-donor-registry/main/pledgecertificates/portrait_templates_v2/Urdu_portrait_"
+      }
+    }
+  }
+  

@@ -1,0 +1,52 @@
+{
+    "@context": {
+      "@version": 1.1,
+      "@protected": true,
+      "id": "@id",
+      "type": "@type",
+      "schema": "https://schema.org/",
+      "pledge": "https://raw.githubusercontent.com/Sreejit-K/onest-demo/master/context/vc-context.json",
+      "ProofOfOrganPledge": {
+        "@id": "schema:ProofOfOrganPledge",
+        "@context": {
+          "id": "@id",
+          "@version": 1.1,
+          "@protected": true,
+          "nonTransferable": "pledge:nonTransferable"
+        }
+      },
+      "Person": {
+        "@id": "schema:Person",
+        "@context": {
+          "@version": 1.1,
+          "@protected": true,
+          "donorId": "schema:Text",
+          "donorName": "schema:name",
+          "donorOrganisation": "schema:Text"
+        }
+      },
+      "OnestPledge": {
+        "@id": "pledge:OnestPledge",
+        "@context": {
+          "causeType":  "schema:Text",
+          "causeId":"schema:Text",
+          "causeName": "schema:Text",
+          "organisation": "schema:Text",
+          "amountPledged": "schema:Text"
+        }
+      },
+      "eKYC": {
+        "@id": "pledge:eKYC",
+        "@context": {
+          "@version": 1.1,
+          "@protected": true,
+          "refId": "schema:id",
+          "verifier": "schema:id",
+          "evidenceDocument": "schema:Text",
+          "subjectPresence": "schema:Text"
+  
+        }
+      }
+    }
+  }
+  

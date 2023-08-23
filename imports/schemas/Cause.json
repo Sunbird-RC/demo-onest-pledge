@@ -1,0 +1,100 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "type": "object",
+  "properties": {
+    "Cause": {
+      "$ref": "#/definitions/Cause"
+    }
+  },
+  "required": [
+    "Cause"
+  ],
+  "title":"Cause",
+  "definitions": {
+    "Cause": {
+      "$id": "#/properties/Cause",
+      "type": "object",
+      "title": "The Cause Schema",
+      "required": [
+          "name",
+          "organisation"
+      ],
+      "properties": {
+          "name": {
+            "type": "string",
+            "title": "Cause Name"
+          },
+          "description": {
+            "type": "string",
+            "title": "description"
+          },
+          "imageRef": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "title": "image's source"
+            },
+            "title": "Images reference"
+          },
+          "videoURL":{
+            "type": "array",
+            "items": {
+              "type": "string",
+              "title": "video source"
+            },
+            "title": "Video's reference"
+          },
+          "causeType":{
+            "type": "string",
+            "enum": [
+              "Scholarship",
+              "Sport",
+              "Educational Impact",
+              "Empowering Minds",
+              "Mother",
+              "Building Futures",
+              "Support children with special needs",
+              "Development of school infrastructure"
+            ],
+            "title": "Cause type"
+          },
+          "organisation": {
+            "type": "string",
+            "title": "Name of the organisation"
+          },
+          "amountPledged": {
+            "type": "string",
+            "title": "Amount Pledged"
+          },
+          "amountNeeded": {
+            "type": "string",
+            "title": "Amount Pledged"
+          },
+          "pledgeCount": {
+            "type": "integer",
+            "title": "Number of Pledges made"
+          }
+    }
+  }
+  },
+  "_osConfig": {
+    "internalFields": [],
+    "privateFields": [],
+    "uniqueIndexFields": [],
+    "ownershipAttributes": [],
+    "systemFields": [
+      "_osCreatedAt",
+      "_osUpdatedAt",
+      "_osCreatedBy",
+      "_osUpdatedBy"
+    ],
+    "roles": [
+      "anonymous"
+    ],
+    "inviteRoles": [
+      "anonymous"
+    ],
+    "enableLogin": false,
+    "enableSearch": true
+  }
+}
