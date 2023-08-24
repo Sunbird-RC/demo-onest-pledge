@@ -92,7 +92,7 @@ async function downloadPledge(pledgeOsid) {
           maxBodyLength: Infinity,
           responseType: "arraybuffer",
           responseEncoding: "binary",
-          url: `http://localhost:8081/api/v1/Pledge/${pledgeOsid}`,
+          url: `${REGISTRY_URL}/api/v1/Pledge/${pledgeOsid}`,
           headers: {
             'Accept': 'application/pdf',
             'template-key': 'english_portrait'

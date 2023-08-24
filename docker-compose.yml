@@ -183,7 +183,7 @@ services:
     volumes:
       - ./imports:/etc/keys
   onest-pledge-service:
-    image: sreejith/onest-backend
+    image: sreejithk1903/onest-backend
     ports:
       - "8000:8000"
     environment:
@@ -210,7 +210,7 @@ services:
       registry:
         condition: service_healthy
   onest-ui:
-    image: sreejith/onest-ui:latest
+    image: sreejithk1903/onest-ui:latest
     restart: always
     ports:
       - "4200:4200"
