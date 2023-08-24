@@ -50,7 +50,7 @@ App.get('/download/:pledgeId', async (req, res) => {
     res.writeHead(200, {
         'Content-Type': 'application/pdf',
         'Content-Disposition': `attachment; filename=Pledge_Certificate_${pledgeId}.pdf`,
-        'Content-Length': data.length
+        'Content-Length': data?.length
       });
     res.end(data);
 })

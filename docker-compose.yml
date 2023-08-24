@@ -61,7 +61,7 @@ services:
       timeout: 10s
       retries: 10
   keycloak:
-    image: sreejith/sunbird-rc-keycloak:latest
+    image: sreejithk1903/sunbird-rc-keycloak:latest
     volumes:
       - ${PWD}/${KEYCLOAK_IMPORT_DIR-imports}:/opt/jboss/keycloak/imports
       - ${PWD}/${KEYCLOAK_THEMES_DIR-keycloak/themes/nha}:/opt/jboss/keycloak/themes/nha
@@ -146,15 +146,38 @@ services:
       retries: 10
     volumes:
       - ./imports:/etc/keys
-  context-proxy-service:
-    image: dockerhub/sunbird-rc-context-proxy-service
+  onest-pledge-service:
+    image: sreejithk1903/onest-backend
     ports:
-      - "4400:4400"
+      - "8000:8000"
+    environment:
+      - KEYCLOAK_URL=${KEYCLOAK_SSO_URL}
+      - KEYCLOAK_REALM=${KEYCLOAK_REALM}
+      - REGISTRY_URL=${REGISTRY_URL}
+      - CREDENTIAL_URL=${CREDENTIAL_SERVICE_URL}
+      - IDENTITY_URL=${IDENTITY_SERVICE_URL}
+      - CREDENTIAL_SCHEMA_URL=${CREDENTIAL_SCHEMA_SERVICE_URL}
+      - VISITOR_CERTIFICATE_BASE_URL=${VISITOR_CERTIFICATE_BASE_URL}
+      - ADMIN_API_SECRET_KEY=${ADMIN_API_SECRET_KEY},
+      - SERVICE_CLIENT_SECRET_KEY=${SERVICE_CLIENT_SECRET_KEY},
+      - EMAIL_API_KEY=${EMAIL_API_KEY},
+      - EMAIL_ID_FOR_NOTIFICATIONS=${EMAIL_ID_FOR_NOTIFICATIONS},
+      - EMAIL_SENDER_NAME=${EMAIL_SENDER_NAME},
+      - SENDGRID_EMAIL_API_KEY=${SENDGRID_EMAIL_API_KEY}
     healthcheck:
-      test: [ "CMD", "curl", "-f", "localhost:4400/health" ]
+      test:
+        [ "CMD-SHELL", "curl -f http://localhost:8000/swagger || exit 1" ]
       interval: 30s
       timeout: 10s
       retries: 10
+    depends_on:
+      registry:
+        condition: service_healthy
+  onest-ui:
+    image: sreejithk1903/onest-ui:latest
+    restart: always
+    ports:
+      - "4200:4200"
   # nginx:
   #   image: dockerhub/sunbird-rc-nginx
   #   ports:
@@ -177,3 +200,4 @@ services:
   #     interval: 30s
   #     timeout: 10s
   #     retries: 10
+    
