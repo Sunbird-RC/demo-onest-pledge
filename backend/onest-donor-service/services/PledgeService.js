@@ -5,7 +5,6 @@ const utils = require('../services/utils');
 const serviceUrl = `${REGISTRY_URL}/api/v1/Pledge`;
 const donorService = require('./Donorservice');
 const causeService = require('./CauseService');
-// const mailService = require('./test');
 const mailService = require('./mailservice');
 const brevoMailService = require('./brevoMailService2');
 
@@ -27,20 +26,6 @@ async function getAllPledges() {
 async function createPledge(pledge){
     try {
 
-        // let getDonarDetailsWithEmail = await donorService.getDonorByEmailId(pledge?.email);
-        // if (getDonarDetailsWithEmail?.length === 0) {
-        //     let createANewDonor = await  donorService.createDonor({
-        //         "email": pledge?.email,
-        //         "name": pledge?.donorName,
-        //         "mobileNumber": pledge?.mobileNumber,
-        //         "organisation": pledge?.donorOrganisation ?  pledge?.donorOrganisation  : "NA",
-        //         "amountPledged": pledge?.amountForPledge,
-        //         "pledgeCount": 1
-        //     })
-        // }
-        // pledge.donorId = createANewDonor.
-
-
         let createdPledge = await axios.post(`${serviceUrl}`, pledge);
 
         let causeData = await causeService.getCauseById(pledge?.causeDetails?.causeId);
@@ -53,10 +38,13 @@ async function createPledge(pledge){
             "amountPledged": updatedPledgedAmount.toString()
         }
         await causeService.updateCauseById(pledge?.causeDetails?.causeId, reqToupdate)
-        console.log(createdPledge.data);
+
+        let baseURL = config.VISITOR_CERTIFICATE_BASE_URL;
+        let notification_sender_mail_id = config.EMAIL_ID_FOR_NOTIFICATIONS;
+        let notification_sender_name = config.EMAIL_SENDER_NAME;
         // mailService.sendEmail("kanjarla.sreejit@gmail.com", "sreejith.k@beehyv.com", pledge?.donorName, `http://localhost:8000/download/${createdPledge.data.result.Pledge.osid}`);
         // mailService.sendEmail("onest.pledge@beehyv.com", pledge?.email, pledge?.causeDetails?.causeName, pledge?.donorName, `http://localhost:8000/download/${createdPledge.data.result.Pledge.osid}`);
-        brevoMailService.sendEmail("onest.pledge@beehyv.com", pledge?.email, pledge?.causeDetails?.causeName, pledge?.donorName, `http://localhost:8000/download/${createdPledge.data.result.Pledge.osid}` );
+        brevoMailService.sendEmail(notification_sender_mail_id , pledge?.email, pledge?.causeDetails?.causeName, pledge?.donorName, `${baseURL}/download/${createdPledge.data.result.Pledge.osid}`,notification_sender_name );
         return createdPledge.data;
     } catch (error) {
         throw error
@@ -65,9 +53,7 @@ async function createPledge(pledge){
 
 async function getPledgeById(pledgeId, headers){
     try {
-        // let adminSecret = config.ADMIN_API_SECRET_KEY;
-        // let token = await utils.getServiceAccountToken("admin-api", adminSecret);
-        // console.log(token);
+
         let getPledge = await axios.get(`${serviceUrl}/${pledgeId}`);
         return getPledge.data;
     } catch (error) {

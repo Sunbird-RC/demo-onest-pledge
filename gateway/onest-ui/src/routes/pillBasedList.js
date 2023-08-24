@@ -24,7 +24,6 @@ export default function ScrollableTabsButtonPrevent() {
 
   const getData = async () => {
     const { data } = await _axios.get(`${baseUrl}/api/v1/Cause/getAllCauses`);
-    // data[0].causeType = "Chatbot for students";
     console.log(data);
     setCauses(data);
   };

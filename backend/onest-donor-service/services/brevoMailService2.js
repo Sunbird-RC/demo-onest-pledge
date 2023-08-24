@@ -1,6 +1,7 @@
 const axios = require('axios');
+const CONFIG = require('../config/config');
 
-async function sendEmail(emailFrom, emailTo, causeName , donorName, certificareURL) {
+async function sendEmail(emailFrom, emailTo, causeName , donorName, certificareURL, emailSenderName) {
 
     let emailTemplate = `
     <html>
@@ -23,7 +24,7 @@ async function sendEmail(emailFrom, emailTo, causeName , donorName, certificareU
 
 let data = JSON.stringify({
     "sender": {
-      "name": "Onest Team",
+      "name": emailSenderName,
       "email": emailFrom
     },
     "to": [
@@ -42,7 +43,7 @@ let data = JSON.stringify({
     url: 'https://api.brevo.com/v3/smtp/email',
     headers: { 
       'accept': 'application/json', 
-      'api-key': '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', 
+      'api-key': CONFIG.EMAIL_API_KEY, 
       'content-type': 'application/json'
     },
     data : data
