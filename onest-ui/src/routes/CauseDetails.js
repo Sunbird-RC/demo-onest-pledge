@@ -1,5 +1,5 @@
 
-import { Button, Typography } from "@mui/material";
+import { Button, Card, CardActionArea, CardMedia, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { useEffect, useState } from "react";
 import {Container, Row, Col } from "react-bootstrap";
@@ -7,6 +7,7 @@ import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import OnestProgressBar from "./progressBar";
 import Video from "./video";
 import YouTubeThumbnail from "./thumbNailReactComponent";
+import OnestCarousel from "./imageCarousel";
 
 
 
@@ -91,9 +92,23 @@ function CauseDetails() {
             {/* <iframe width={'350'} height={'200'}
             src="https://www.youtube.com/embed/tgbNymZ7vqY?autoplay=1&mute=1">
             </iframe> */}
-            <iframe width="350" height="200" src="https://www.youtube.com/embed/5E5p_uOZVGY?si=11Gp6DvYJqNGNeXz&amp;controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen>
+            { (cause?.videoURL.length > 0) &&  cause?.videoURL?.map((i) => {
+                return <iframe width="350" height="200" style={{margin:'4px'}} src={i} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen>
 
-            </iframe>
+                </iframe>
+            })
+
+            }
+            { (cause?.imageRef.length > 0) && 
+             <Card sx={{minWidth: 345 , margin: '5px', padding: '4px'}}>
+             <CardActionArea sx={{maxHeight: "350"}}>
+            <CardMedia>
+                <OnestCarousel  setFocus={null} JSXelements={cause?.imageRef} /> 
+            </CardMedia>
+            </CardActionArea>
+            </Card>
+            }
+            
             {/* <YouTubeThumbnail /> */}
             {/* <Video src={'https://www.youtube.com/watch?v=wvBYfE69U4A'}></Video> */}
             {/* <img src={`${cause?.imageRef[0]}`} width={'350'} height={'200'} alt="Italian Trulli" /> */}
