@@ -93,14 +93,14 @@
       "credentialTemplate": {
         "@context": [
           "https://www.w3.org/2018/credentials/v1",
-          "https://raw.githubusercontent.com/Sreejit-K/onest-demo/master/context/vc-context.json"
+          "https://raw.githubusercontent.com/Sunbird-RC/demo-onest-pledge/master/context/vc-context.json"
         ],
         "type": [
           "VerifiableCredential",
-          "ProofOfOrganPledge"
+          "ProofOfDonationPledge"
         ],
-        "id": "https://dev-donor-registry.abdm.gov.in/pledgecredentials/{{osid}}",
-        "issuer": "https://dev-donor-registry.abdm.gov.in",
+        "id": "https://pledge.onest.network/pledgecredentials/{{osid}}",
+        "issuer": "https://pledge.onest.network",
         "issuanceDate": "{{osCreatedAt}}",
         "credentialSubject": {
           "type": "Person",
@@ -126,7 +126,7 @@
         "anonymous"
       ],
       "certificateTemplates": {
-        "english_portrait": "https://raw.githubusercontent.com/Sreejit-K/onest-demo/master/templates/onest_pledge.pdf"
+        "english_portrait": "https://raw.githubusercontent.com/Sunbird-RC/demo-onest-pledge/master/templates/onest_pledge.pdf"
       }
     }
   }
