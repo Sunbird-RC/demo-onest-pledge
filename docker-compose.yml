@@ -184,6 +184,8 @@ services:
       - ./imports:/etc/keys
   onest-pledge-service:
     image: sreejith/onest-backend
+    ports:
+      - "8000:8000"
     environment:
       - KEYCLOAK_URL=${KEYCLOAK_SSO_URL}
       - KEYCLOAK_REALM=${KEYCLOAK_REALM}
@@ -207,4 +209,8 @@ services:
     depends_on:
       registry:
         condition: service_healthy
-
+  onest-ui:
+    image: sreejith/onest-ui:latest
+    restart: always
+    ports:
+      - "4200:4200"
