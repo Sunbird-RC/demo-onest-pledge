@@ -53,8 +53,17 @@ export default function MultiActionAreaCard(props) {
                 </Typography>
                 </CardContent>
             </CardActionArea>
-            <CardActions>
-                <Button size="small" color="primary"  onClick={() => navigateToPledge(props.cause)}>
+            <CardActions 
+            disableSpacing
+            sx={{
+              alignSelf: "stretch",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "flex-start",
+              // 👇 Edit padding to further adjust position
+              p: 0,
+            }}>
+                <Button variant="contained" onClick={() => navigateToPledge(props.cause)}>
                 Pledge
                 </Button>
             </CardActions>

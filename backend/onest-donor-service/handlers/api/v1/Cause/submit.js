@@ -23,8 +23,8 @@ module.exports = {
             let createdCause = await causeService.createCause(causeToBeCreated);
             console.log(createdCause);
             res.status(status).send({
-                "message": "string",
-                "success": "string",
+                "message": "Casue has been succesfully created",
+                "success": true,
                 "causeUpdate":  createdCause 
             })
         } catch (error) {

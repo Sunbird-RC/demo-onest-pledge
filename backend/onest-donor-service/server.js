@@ -7,11 +7,12 @@ var Swaggerize = require('swaggerize-express');
 var Path = require('path');
 var cors = require('cors');
 var App = Express();
+var pledgeService = require('./services/PledgeService');
 
 var Server = Http.createServer(App);
 
 App.use(cors());
-App.use(BodyParser.json());
+App.use(BodyParser.json({ limit: '10mb' }));
 App.use(BodyParser.urlencoded({
     extended: true
 }));
@@ -41,6 +42,18 @@ App.use(function(err, req, res, next) {
         });
     }
 });
+
+App.get('/download/:pledgeId', async (req, res) => {
+    console.log("This is working!!");
+    let {pledgeId}= req.params;
+    let data =  await pledgeService.downloadPledge(pledgeId);
+    res.writeHead(200, {
+        'Content-Type': 'application/pdf',
+        'Content-Disposition': `attachment; filename=Pledge_Certificate_${pledgeId}.pdf`,
+        'Content-Length': data.length
+      });
+    res.end(data);
+})
 
 
 Server.listen(8000, function () {

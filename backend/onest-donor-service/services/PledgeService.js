@@ -3,6 +3,8 @@ const { default: axios } = require("axios");
 const config = require('../config/config');
 const utils = require('../services/utils');
 const serviceUrl = `${REGISTRY_URL}/api/v1/Pledge`;
+const donorService = require('./Donorservice');
+const causeService = require('./CauseService');
 
 async function getAllPledges() {
     try {
@@ -21,7 +23,33 @@ async function getAllPledges() {
 
 async function createPledge(pledge){
     try {
+
+        // let getDonarDetailsWithEmail = await donorService.getDonorByEmailId(pledge?.email);
+        // if (getDonarDetailsWithEmail?.length === 0) {
+        //     let createANewDonor = await  donorService.createDonor({
+        //         "email": pledge?.email,
+        //         "name": pledge?.donorName,
+        //         "mobileNumber": pledge?.mobileNumber,
+        //         "organisation": pledge?.donorOrganisation ?  pledge?.donorOrganisation  : "NA",
+        //         "amountPledged": pledge?.amountForPledge,
+        //         "pledgeCount": 1
+        //     })
+        // }
+        // pledge.donorId = createANewDonor.
+
+
         let createdPledge = await axios.post(`${serviceUrl}`, pledge);
+
+        let causeData = await causeService.getCauseById(pledge?.causeDetails?.causeId);
+        let updatedPledgedAmount = parseInt(causeData.amountPledged) + parseInt(pledge?.amountForPledge ? pledge?.amountForPledge : 0);
+        let currentPledgeCount = parseInt(causeData.pledgeCount) + 1;
+        let reqToupdate =     {
+            "name": pledge?.causeDetails?.causeName,
+            "organisation": pledge?.causeDetails?.organisation,
+            "pledgeCount": currentPledgeCount,
+            "amountPledged": updatedPledgedAmount.toString()
+        }
+        await causeService.updateCauseById(pledge?.causeDetails?.causeId, reqToupdate)
         return createdPledge.data;
     } catch (error) {
         throw error
@@ -64,10 +92,30 @@ async function searchPledge(req) {
     }
 }
 
+async function downloadPledge(pledgeOsid) {
+    try {
+        const config = {
+          method: 'get',
+          maxBodyLength: Infinity,
+          responseType: "arraybuffer",
+          responseEncoding: "binary",
+          url: `http://localhost:8081/api/v1/Pledge/${pledgeOsid}`,
+          headers: {
+            'Accept': 'application/pdf',
+            'template-key': 'english_portrait'
+          }
+        };
+        return await axios.request(config).then(d => d?.data);
+      } catch (error) {
+        console.log(error);
+      }
+}
+
 module.exports= {
     getAllPledges,
     createPledge,
     getPledgeById,
     updatePledgeById,
-    searchPledge
+    searchPledge,
+    downloadPledge
 }

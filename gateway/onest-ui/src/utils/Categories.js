@@ -1,10 +1,11 @@
 const Categories = [
-    "All Categories",
-    "Chatbot for students",
-    "App for teachers",
-    "Children with special needs",
-    "Young athletes",
-    "School library"
+    "All",
+    "School learning app",
+    "School story app",
+    "CWSN learning kit",
+    "Sports Scholarship",
+    "School library" 
+    
 ]
 
 export default Categories;

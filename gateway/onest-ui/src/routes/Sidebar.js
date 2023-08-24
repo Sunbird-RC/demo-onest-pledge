@@ -4,7 +4,7 @@ import { withRouter } from "react-router";
 // import '../pages/style/Dashboard.css'
 
 const Sidebar= (props) => {
-   let [causeTypesList, setCauseTypeLists] = useState(["All Categories"])
+   let [causeTypesList, setCauseTypeLists] = useState(["All"])
 
     useEffect(() => {
         let causes = props.causes;
@@ -15,7 +15,7 @@ const Sidebar= (props) => {
 
     const handleOnCLickEvent = (value) => {
         console.log(value);
-        if (value === 0) props.causeChangeHandler('All Categories')
+        if (value === 0) props.causeChangeHandler('All')
         else props.causeChangeHandler(causeTypesList[value-1]);
     }
     return (
@@ -28,7 +28,7 @@ const Sidebar= (props) => {
                             
                 <>
                             <Nav.Item key={0}>
-                            <Nav.Link onClick={() => handleOnCLickEvent(0)}>All Categories</Nav.Link>
+                            <Nav.Link onClick={() => handleOnCLickEvent(0)}>All</Nav.Link>
                             </Nav.Item>
                 {causeTypesList.map((element, index)=> {
                 

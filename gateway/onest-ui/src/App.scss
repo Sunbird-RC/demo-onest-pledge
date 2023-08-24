@@ -1,1 +1,11 @@
 @import '~bootstrap/scss/bootstrap';
+
+.bg-onest-theme-color{
+    background-color: #0F75BC!important;
+}
+
+.MuiButton-containedPrimary{
+    // color: rgb(238, 43, 43) !important;
+    background-color: #0F75BC !important;
+    border-color: #0F75BC !important;
+}

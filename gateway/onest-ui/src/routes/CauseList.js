@@ -9,7 +9,7 @@ function CauseList(props) {
     let [causeList, setCauseList] = useState(props.causes);
 
     useEffect(() => {
-        if (props.causeType === 'All Categories') setCauseList(props.causes);
+        if (props.causeType === 'All') setCauseList(props.causes);
         else {
             setCauseList(props.causes.filter(i => {
                 return i.causeType === props.causeType
@@ -26,6 +26,7 @@ function CauseList(props) {
 
             }
         </Row>
+        
     </Grid>
 
 

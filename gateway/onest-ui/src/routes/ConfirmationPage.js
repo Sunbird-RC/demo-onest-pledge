@@ -9,9 +9,13 @@ import { Box } from "@mui/system";
 function ConfirmationPage() {
 
     let [cause,setCause] = useState();
+    let [pledgeId,setPledge] = useState();
     const location = useLocation();
     useEffect(() => {
-        setCause(location.state);
+        let {cause, pledgeId} = location?.state;
+
+        setCause(cause);
+        setPledge(pledgeId);
     }, []);
 
 
@@ -19,6 +23,52 @@ function ConfirmationPage() {
     const navigateToHome = () => {
         naviagte('/home');
     };
+
+    const downloadPdf = () => {
+        // Replace with your PDF URL
+        const pdfUrl = 'http://localhost:8000/download/36a91a51-b895-400d-936e-7bb7fd714372';
+    
+        // Fetch the PDF
+
+        fetch(pdfUrl)
+          .then((response) => response.blob())
+          .then((blob) => {
+            console.log(blob)
+            // Create a blob URL for the PDF
+            const blobUrl = window.URL.createObjectURL(blob);
+    
+            // Create an anchor element for downloading
+            const a = document.createElement('a');
+            a.href = blobUrl;
+            a.download = 'document.pdf'; // You can set the desired file name here
+            a.style.display = 'none';
+    
+            // Append the anchor element to the DOM and trigger the click event
+            document.body.appendChild(a);
+            a.click();
+    
+            // Clean up by revoking the blob URL
+            window.URL.revokeObjectURL(blobUrl);
+          })
+          .catch((error) => {
+            console.error('Error downloading PDF:', error);
+          });
+      };
+    
+
+      const handleDownloadClick = () => {
+        // Create an anchor element
+        const a = document.createElement('a');
+    
+        // Set the anchor's href attribute to the PDF URL
+        a.href = `http://localhost:8000/download/${pledgeId}`;
+    
+        // Set the anchor's download attribute to specify the file name
+        a.download = `Pledge_Certificate_${pledgeId}.pdf`;
+    
+        // Programmatically click the anchor element to trigger the download
+        a.click();
+      };
 
 
   return (
@@ -50,6 +100,15 @@ function ConfirmationPage() {
             <Button style={{ color: '#0F75BC', transition: "1s", marginTop:'25px' }} onClick={navigateToHome}>
                 Pledge Again
               </Button>
+
+{/* 
+                <a href="http://localhost:8000/download/123123132">
+                    Download certificate
+                </a> */}
+              <Button style={{ color: '#0F75BC', transition: "1s", marginTop:'15px' }} onClick={() => handleDownloadClick()}>
+                  Download Pledge
+              </Button>
+              {/* <button onClick={() => handleDownloadClick()}>Download PDF</button> */}
             </Box> 
     </div>
     // <Container

@@ -49,14 +49,14 @@ export default function AlignItems(props) {
 
 
     React.useEffect(() => {
-        if (props.causeType === 'All Categories') setCauseList(props.causes);
+        if (props.causeType === 'All') setCauseList(props.causes);
         else {
             setCauseList(props.causes.filter(i => {
                 return i.causeType === props.causeType
             }))
         }
   
-    }, [props.causeType]);
+    }, [props.causeType, props.causes]);
   return (
     <div style={{ width: "100%" }}>
       <Box

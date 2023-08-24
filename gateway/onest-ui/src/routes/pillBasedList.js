@@ -18,20 +18,22 @@ import AlignItems from "./item";
 export default function ScrollableTabsButtonPrevent() {
   const [value, setValue] = React.useState(0);
   const [categories, setCategories] = React.useState(Categories);
-  const [selected, setSelected] = React.useState('All Categories');
-  let [causes, setCauses] = React.useState(Causes);
+  const [selected, setSelected] = React.useState('All');
+  let [causes, setCauses] = React.useState([]);
   const baseUrl = `${config.BackendURL}`
 
   const getData = async () => {
     const { data } = await _axios.get(`${baseUrl}/api/v1/Cause/getAllCauses`);
-    // setCauses(data);
+    // data[0].causeType = "Chatbot for students";
+    console.log(data);
+    setCauses(data);
   };
   
   React.useEffect(() => {
-    // getData()
+    getData()
   },[])
 
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+  const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
@@ -45,7 +47,7 @@ export default function ScrollableTabsButtonPrevent() {
                         scrollButtons={false}
                         aria-label="scrollable prevent tabs example"
                     >
-                        {categories.map((name) => {
+                        {categories?.map((name) => {
                             const checked = selected === name;
                             return (
                             <Chip

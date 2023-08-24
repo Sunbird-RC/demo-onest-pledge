@@ -24,7 +24,7 @@ function OnestProgressBar(props) {
     },[props?.current, props?.total])
 
   return (
-    <ProgressBar now={percentage} label={`${percentage}%`} />
+    <ProgressBar variant="onest-theme-color" now={percentage} label={`${percentage}%`} />
   );
 }
 

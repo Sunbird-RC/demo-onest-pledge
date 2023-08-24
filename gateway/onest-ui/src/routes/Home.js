@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import CauseList from './CauseList';
 
 function Home(props) {
-    let [currentCause, setCurrentCause]= useState("All Categories");
+    let [currentCause, setCurrentCause]= useState("All");
     let [causes, setCauses] = useState(props.causes);
 
 

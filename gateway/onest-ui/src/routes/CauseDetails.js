@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import {Container, Row, Col } from "react-bootstrap";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import OnestProgressBar from "./progressBar";
+import Video from "./video";
+import YouTubeThumbnail from "./thumbNailReactComponent";
 
 
 
@@ -51,7 +53,7 @@ function CauseDetails() {
             ans += s[i];
     
         return "Rs " + ans;
-      }
+    }
 
   return (  
 
@@ -83,8 +85,18 @@ function CauseDetails() {
             bgcolor: 'background.paper',
             borderRadius: 1,
             }}
+
+
         >
-            <img src={`${cause?.imageRef[0]}`} width={'350'} height={'200'} alt="Italian Trulli" />
+            {/* <iframe width={'350'} height={'200'}
+            src="https://www.youtube.com/embed/tgbNymZ7vqY?autoplay=1&mute=1">
+            </iframe> */}
+            <iframe width="350" height="200" src="https://www.youtube.com/embed/5E5p_uOZVGY?si=11Gp6DvYJqNGNeXz&amp;controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen>
+
+            </iframe>
+            {/* <YouTubeThumbnail /> */}
+            {/* <Video src={'https://www.youtube.com/watch?v=wvBYfE69U4A'}></Video> */}
+            {/* <img src={`${cause?.imageRef[0]}`} width={'350'} height={'200'} alt="Italian Trulli" /> */}
             <h6 style={{
                 marginTop:'4px',
                 color: "#3B4555",
@@ -97,7 +109,7 @@ function CauseDetails() {
             <Typography style={{marginTop: '10px', marginBottom:'20px', width:'100%'}}>
                         <OnestProgressBar  current={cause?.amountPledged} total={cause?.amountNeeded}/>
             </Typography>
-            <Button onClick={() => navigateToPledge(cause)} variant="contained">Start Pledge</Button>
+            <Button onClick={() => navigateToPledge(cause)} variant="contained">Pledge</Button>
         </Box>
         <Box
             sx={{

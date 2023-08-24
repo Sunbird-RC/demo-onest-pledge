@@ -12,12 +12,13 @@ import { useMediaQuery } from "usehooks-ts";
 import { Box } from "@mui/system";
 // import { Button } from "@mui/material";
 import config from "../config/config";
-import { Typography } from "@mui/material";
+import { Slider, Typography } from "@mui/material";
+import DiscreteSlider from "./slider";
 
 function Pledge(props) {
     let [cause,setCause] = useState();
     const matches = useMediaQuery('(min-width: 1200px)')
-    const [formData, setFormData] = useState({ name: '',email:'' ,organisation: '', mobileNumber: '', pledgeAmount: ''});
+    const [formData, setFormData] = useState({ name: '',email:'' ,organisation: '', mobileNumber: '', pledgeAmount: 1000});
     const [submissionResult, setSubmissionResult] = useState('');
     const location = useLocation();
     const navigate = useNavigate();
@@ -42,6 +43,40 @@ function Pledge(props) {
       today = dd + '/' + mm + '/' + yyyy;
       return today;
     }
+
+    const goodFormat = (s, n) => {
+      // If length if less than 3
+      if (n <= 3)
+          return "Rs. " + s;
+  
+      let ans = "";
+      let start = 0, cnt = 0;
+  
+      // If length is even
+      if (n % 2 == 0) {
+          ans += s[0];
+          ans += ", ";
+          start = 1;
+      }
+      while (start < n - 2) {
+          if (cnt == 2) {
+              ans += ", ";
+              cnt = 0;
+              continue;
+          }
+          else {
+              ans += s[start];
+              cnt++;
+          }
+          start++;
+      }
+  
+      for (let i = start; i < n; i++)
+          ans += s[i];
+  
+      return "Rs " + ans;
+  }
+
     /// ----------------------------------------------------------------
 
     const [emailError, setEmailError] = useState("");
@@ -95,15 +130,15 @@ function Pledge(props) {
         let dataToSend = {
           "PledgeDetails": {
             "donorName": formData.name,
-            "donorId": "845f52c5-da79-4c0a-a0b1-3d5cf70ec6cc", // have to create it in backend
-            "causeId": "845f52c5-da79-4c0a-a0b1-3d5cf70ec6cc", // get it from the causeDetails
+            "donorId": formData.email, // have to create it in backend
+            "causeId": cause?.osid, // get it from the causeDetails
             "email": formData.email,
             "mobileNumber": formData.mobileNumber,
-            "amountForPledge": formData.pledgeAmount,
+            "amountForPledge": formData.pledgeAmount.toString(),
             "donorOrganisation": formData.mobileNumber,
             "pledgeDate": getCurrentTime(),
             "causeDetails": {
-              "causeId": "0e7cad04-0aba-40fd-abe8-b4cbe2a75eab",
+              "causeId": cause?.osid,
               "causeName": cause?.name,
               "causeType": cause?.causeType,
               "organisation": cause?.organisation
@@ -114,10 +149,10 @@ function Pledge(props) {
         try {
           let data = (await _axios.post( `${baseUrl}/api/v1/Pledge`, dataToSend)).data;
           console.log(data);
-          if (data.success) navigateToConfirmationPage(cause)
+          if (data.success) navigateToConfirmationPage(cause,data.pledgeUpdate.result.Pledge.osid);
         } catch (error) {
           console.log(error);
-          toast.error("An error occurred while submitting the form.");
+          toast.error("We found an issue while creating your Pledge. Please try again later.");
         }
         
        
@@ -135,8 +170,15 @@ function Pledge(props) {
         });
     };
 
-    const navigateToConfirmationPage = (value) => {
-        navigate('/confirmationPage', {state: value})
+    const handleSliderChange = (event, newValue) => {
+      setFormData({
+        ...formData,
+        "pledgeAmount": newValue,
+      })
+    }
+
+    const navigateToConfirmationPage = (value, pledgedata) => {
+        navigate('/confirmationPage', {state: {"cause": value, "pledgeId": pledgedata}})
     }
 
 
@@ -170,7 +212,7 @@ function Pledge(props) {
                           name="name"
                           value={formData.name}
                           onChange={handleInputChange}
-                          style={{ paddingTop:'0px',marginTop: '0px', color: '#0F75BC',fontSize: '15px'}}
+                          style={{ paddingTop:'0px',marginTop: '0px', fontSize: '15px'}}
                           required
                       />
                       </Form.Group>
@@ -183,7 +225,7 @@ function Pledge(props) {
                           name="email"
                           value={formData.email}
                           onChange={handleInputChange}
-                          style={{ paddingTop:'0px',marginTop: '0px', color: '#0F75BC',fontSize: '15px'}}
+                          style={{ paddingTop:'0px',marginTop: '0px', fontSize: '15px'}}
                           required
                       />
                       <Typography  variant="body2" color="red">
@@ -199,14 +241,14 @@ function Pledge(props) {
                           name="mobileNumber"
                           value={formData.mobileNumber}
                           onChange={handleInputChange}
-                          style={{ paddingTop:'0px',marginTop: '0px', color: '#0F75BC',fontSize: '15px'}}
+                          style={{ paddingTop:'0px',marginTop: '0px',fontSize: '15px'}}
                           required
                       />
                         <Typography  variant="body2" color="red">
                         {mobileError}
                         </Typography>
                       </Form.Group>
-                      <Form.Group style={{ marginTop: '10px'}}controlId="organisation">
+                      <Form.Group style={{ marginTop: '10px'}} controlId="organisation">
                       <Form.Label style={{paddingBottom:'0px', marginBottom: '0px'}}><Typography  variant="body1" color="text.secondary">
                       Organisation:
                       </Typography></Form.Label>
@@ -215,7 +257,7 @@ function Pledge(props) {
                           name="organisation"
                           value={formData.organisation}
                           onChange={handleInputChange}
-                          style={{ paddingTop:'0px',marginTop: '0px', color: '#0F75BC',fontSize: '15px'}}
+                          style={{ paddingTop:'0px',marginTop: '0px', fontSize: '15px'}}
                           required
                       />
                       </Form.Group>
@@ -223,17 +265,34 @@ function Pledge(props) {
                       <Form.Label style={{paddingBottom:'0px', marginBottom: '0px'}}><Typography  variant="body1" color="text.secondary">
                       Amount to Pledge:
                       </Typography></Form.Label>
-                      <Form.Control
+                      {/* <Form.Control
                           type="pledgeAmount"
                           name="pledgeAmount"
                           value={formData.pledgeAmount}
                           onChange={handleInputChange}
                           style={{ paddingTop:'0px',marginTop: '0px', color: '#0F75BC',fontSize: '15px'}}
                           required
+                      /> */}
+
+                      <Slider
+                        aria-label="Pledge Amount"
+                        defaultValue={1000}
+                        value={formData.pledgeAmount}
+                        onChange={handleSliderChange}
+                        style={{color:'#0F75BC'}}
+                        valueLabelDisplay="auto"
+                        step={1000}
+                        marks
+                        min={1000}
+                        max={20000}
                       />
+                      <Typography  variant="body2" color="#0F75BC">
+                          Selected Pledge Amount :  { goodFormat(formData.pledgeAmount.toString(), formData.pledgeAmount.toString().length)}
+                      </Typography>
                        <Typography  variant="body2" color="red">
                          {amountError}
                         </Typography>
+
 
                       </Form.Group>
                   </Form>
@@ -248,7 +307,7 @@ function Pledge(props) {
 
               </Row>
 
-              <Button style={{marginTop:'40px'}} variant="primary" disabled={!formData.name || !formData.email || !formData.organisation || !formData.mobileNumber || !formData.pledgeAmount} type="submit" onClick={(e) => handleSubmit(e)}>
+              <Button className="MuiButton-containedPrimary" style={{marginTop:'40px' }} variant="primary" disabled={!formData.name || !formData.email || !formData.organisation || !formData.mobileNumber || !formData.pledgeAmount} type="submit" onClick={(e) => handleSubmit(e)}>
                 Submit
               </Button>
               {/* <Button style={{marginTop:'40px'}} variant="contained" onClick={(e) => handleSubmit(e)}>
