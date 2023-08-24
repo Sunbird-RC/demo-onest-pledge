@@ -2,7 +2,7 @@ const sgMail = require('@sendgrid/mail');
 
 async function sendEmail(emailFrom, emailTo, causeName , donorName, certificareURL  ) {
   sgMail.setApiKey('YOUR_SENDGRID_API_KEY');
-  const emailTemplate = `
+  let emailTemplate = `
     <html>
       <head>
         <title>Certificate of Pledge</title>
@@ -13,7 +13,7 @@ async function sendEmail(emailFrom, emailTo, causeName , donorName, certificareU
         <p>A team member will get in touch with you to facilitate the collection of the pledged amount. Your privacy is of utmost importance to us, and we assure you that these details will remain strictly confidential and not be shared with any third parties.</p>
         <p>Thank you once again for your invaluable contribution. We are honoured to have you as part of our mission.</p>
         <p>You can download your pledge certificate by clicking on the below attached link</p>
-        <a href=${certificareURL}>Download pledge Certificate</a?
+        <a href=${certificareURL}>Download pledge Certificate</a>
         <p>Warm regards,</p>
         <p>ONEST Pledge Team</p>
       </body>
