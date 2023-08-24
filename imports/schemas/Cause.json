@@ -46,16 +46,6 @@
           },
           "causeType":{
             "type": "string",
-            "enum": [
-              "Scholarship",
-              "Sport",
-              "Educational Impact",
-              "Empowering Minds",
-              "Mother",
-              "Building Futures",
-              "Support children with special needs",
-              "Development of school infrastructure"
-            ],
             "title": "Cause type"
           },
           "organisation": {
@@ -83,10 +73,10 @@
     "uniqueIndexFields": [],
     "ownershipAttributes": [],
     "systemFields": [
-      "_osCreatedAt",
-      "_osUpdatedAt",
-      "_osCreatedBy",
-      "_osUpdatedBy"
+      "osCreatedAt",
+      "osUpdatedAt",
+      "osCreatedBy",
+      "osUpdatedBy"
     ],
     "roles": [
       "anonymous"

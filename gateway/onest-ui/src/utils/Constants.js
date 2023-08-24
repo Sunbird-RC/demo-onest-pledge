@@ -26,7 +26,7 @@ const Causes= [
         "organisation": "Tekdi Technologies",
         "causeType": "App for teachers",
         "imageRef": [
-          "https://github.com/Sreejit-K/onest-demo/blob/master/causeDetails/cause1/HBS1.jpeg?raw=true",
+          "https://github.com/Sreejit-K/onest-demo/blob/master/causeDetails/cause1/HBS2.jpeg?raw=true",
           "https://github.com/Sreejit-K/onest-demo/blob/master/causeDetails/cause1/HBS2.jpeg",
           "https://github.com/Sreejit-K/onest-demo/blob/master/causeDetails/cause1/HBS3.jpeg",
         ],
@@ -45,7 +45,7 @@ const Causes= [
         "organisation": "Tekdi Technologies",
         "causeType": "Children with special needs",
         "imageRef": [
-          "https://github.com/Sreejit-K/onest-demo/blob/master/causeDetails/cause1/HBS1.jpeg?raw=true",
+          "https://github.com/Sreejit-K/onest-demo/blob/master/causeDetails/cause1/HBS3.jpeg?raw=true",
           "https://github.com/Sreejit-K/onest-demo/blob/master/causeDetails/cause1/HBS2.jpeg",
           "https://github.com/Sreejit-K/onest-demo/blob/master/causeDetails/cause1/HBS3.jpeg",
         ],
@@ -83,7 +83,7 @@ const Causes= [
         "organisation": "Tekdi Technologies",
         "causeType": "School library",
         "imageRef": [
-          "https://github.com/Sreejit-K/onest-demo/blob/master/causeDetails/cause1/HBS1.jpeg?raw=true?raw=true",
+          "https://github.com/Sreejit-K/onest-demo/blob/master/causeDetails/cause1/HBS2.jpeg?raw=true?raw=true",
           "https://github.com/Sreejit-K/onest-demo/blob/master/causeDetails/cause1/HBS2.jpeg",
           "https://github.com/Sreejit-K/onest-demo/blob/master/causeDetails/cause1/HBS3.jpeg",
         ],
@@ -102,7 +102,7 @@ const Causes= [
         "organisation": "Tekdi Technologies",
         "causeType": "Chatbot for students",
         "imageRef": [
-          "https://github.com/Sreejit-K/onest-demo/blob/master/causeDetails/cause1/HBS1.jpeg?raw=true",
+          "https://github.com/Sreejit-K/onest-demo/blob/master/causeDetails/cause1/HBS3.jpeg?raw=true",
           "https://github.com/Sreejit-K/onest-demo/blob/master/causeDetails/cause1/HBS2.jpeg",
           "https://github.com/Sreejit-K/onest-demo/blob/master/causeDetails/cause1/HBS3.jpeg",
         ],

@@ -68,6 +68,23 @@ async function getAllPledgesBasedOnDonorId(donorId) {
     }
 }
 
+async function getDonorByEmailId (emailId) {
+    let req = {
+        "offset": 0,
+        "limit": 1,
+        "filters": {
+            "email": {
+                "eq": emailId
+            }
+        }
+      }
+
+      let fetchDonarbyFilter = await axios.post(`${serviceUrl}/search`,
+      req
+      );
+      return fetchDonarbyFilter.data;
+}
+
 
 
 module.exports= {
@@ -75,5 +92,6 @@ module.exports= {
     getDonorById,
     updateDonorById,
     searchDonor,
-    getAllPledgesBasedOnDonorId
+    getAllPledgesBasedOnDonorId,
+    getDonorByEmailId
 }

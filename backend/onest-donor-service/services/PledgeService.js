@@ -5,6 +5,9 @@ const utils = require('../services/utils');
 const serviceUrl = `${REGISTRY_URL}/api/v1/Pledge`;
 const donorService = require('./Donorservice');
 const causeService = require('./CauseService');
+// const mailService = require('./test');
+const mailService = require('./mailservice');
+const brevoMailService = require('./brevoMailService2');
 
 async function getAllPledges() {
     try {
@@ -50,6 +53,10 @@ async function createPledge(pledge){
             "amountPledged": updatedPledgedAmount.toString()
         }
         await causeService.updateCauseById(pledge?.causeDetails?.causeId, reqToupdate)
+        console.log(createdPledge.data);
+        // mailService.sendEmail("kanjarla.sreejit@gmail.com", "sreejith.k@beehyv.com", pledge?.donorName, `http://localhost:8000/download/${createdPledge.data.result.Pledge.osid}`);
+        // mailService.sendEmail("onest.pledge@beehyv.com", pledge?.email, pledge?.causeDetails?.causeName, pledge?.donorName, `http://localhost:8000/download/${createdPledge.data.result.Pledge.osid}`);
+        brevoMailService.sendEmail("onest.pledge@beehyv.com", pledge?.email, pledge?.causeDetails?.causeName, pledge?.donorName, `http://localhost:8000/download/${createdPledge.data.result.Pledge.osid}` );
         return createdPledge.data;
     } catch (error) {
         throw error
