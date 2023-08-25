@@ -34,9 +34,16 @@ export default function MultiActionAreaCard(props) {
                 image={`${props.cause.imageRef[0]}`}
                 alt="green iguana"
                 /> */}
-                <CardMedia>
-                    <OnestCarousel setFocus={null} JSXelements={props.cause.imageRef} />
-                </CardMedia>
+                {props?.cause?.imageRef?.length > 0 &&
+                  <CardMedia>
+                    <OnestCarousel setFocus={null} JSXelements={props?.cause?.imageRef} />
+                </CardMedia>}
+                {(props?.cause?.imageRef?.length === 0 && props?.cause?.videoURL.length > 0) &&
+
+                   <iframe width="350" height="200" style={{margin:'4px'}} src={props?.cause?.videoURL[0]} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen>
+    
+                    </iframe> 
+                }
                 <CardContent >
                 <Typography gutterBottom variant="h6" component="div" sx={{
                         overflow: "hidden",
