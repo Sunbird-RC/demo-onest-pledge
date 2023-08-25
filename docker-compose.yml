@@ -9,8 +9,8 @@ services:
       - "5432:5432"
     environment:
       - POSTGRES_DB=registry
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=${DB_USERNAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U postgres" ]
       interval: 10s
@@ -22,8 +22,8 @@ services:
       - ./${SCHEMA_DIR-imports/schemas}:/home/sunbirdrc/config/public/_schemas
     environment:
       - connectionInfo_uri=jdbc:postgresql://db:5432/registry
-      - connectionInfo_username=postgres
-      - connectionInfo_password=postgres
+      - connectionInfo_username=${DB_USERNAME}
+      - connectionInfo_password=${DB_PASSWORD}
       - search_providerName=${SEARCH_PROVIDER_NAME-dev.sunbirdrc.registry.service.NativeSearchService}
       - sunbird_sso_realm=${KEYCLOAK_REALM-sunbird-rc}
       - sunbird_sso_url=http://keycloak:8080/auth
@@ -36,22 +36,15 @@ services:
       - signature_enabled=true
       - pdf_url=http://certificate-pdf:8003/api/v1/certificatePDF
       - sunbird_keycloak_user_set_password=true
-      - filestorage_connection_url=http://file-storage:9000
-      - filestorage_access_key=admin
-      - filestorage_secret_key=12345678
-      - filestorage_bucket_key=issuance
       - registry_base_apis_enable=false
       - sunbird_keycloak_user_password=abcd@123
       - logging.level.root=INFO
       - enable_external_templates=true
       - async_enabled=${ASYNC_ENABLED-false}
       - authentication_enabled=true
-      - kafka_bootstrap_address=kafka:9092
       - redis_host=redis
       - redis_port=6379
       - manager_type=${MANAGER_TYPE-DefinitionsManager}
-    ports:
-      - "8081:8081"
     depends_on:
       db:
         condition: service_healthy
@@ -61,7 +54,7 @@ services:
       timeout: 10s
       retries: 10
   keycloak:
-    image: sreejithk1903/sunbird-rc-keycloak:latest
+    image: ghcr.io/sunbird-rc/demo-onest-pledge/keycloak:latest
     volumes:
       - ${PWD}/${KEYCLOAK_IMPORT_DIR-imports}:/opt/jboss/keycloak/imports
       - ${PWD}/${KEYCLOAK_THEMES_DIR-keycloak/themes/nha}:/opt/jboss/keycloak/themes/nha
@@ -98,9 +91,6 @@ services:
       interval: 30s
       timeout: 10s
       retries: 10
-    ports:
-      - "8080:8080"
-      - "9990:9990"
     depends_on:
       db:
         condition: service_healthy
@@ -109,8 +99,6 @@ services:
     environment:
       - PORT=8079
       - TIME_ZONE=Asia/Kolkata
-    ports:
-      - "8079:8079"
     volumes:
       - ./imports:/etc/signer
     healthcheck:
@@ -120,25 +108,13 @@ services:
       timeout: 10s
       retries: 10
   certificate-pdf:
-    image: subhash83925/certificate-pdf:onest
-    ports:
-      - "8003:8003"
-  notification-ms:
-    image: dockerhub/sunbird-rc-notification-service:${RELEASE_VERSION}
-    ports:
-      - "8765:8765"
-    environment:
-      - KAFKA_ENABLED=false
-      - ENABLE_SMS=false
-      - ENABLE_EMAIL=true
-      - SENDER_EMAIL="onestdemo@gmail.com"
-      - SENDER_PASSWORD="onest@123"
+    image: ghcr.io/sunbird-rc/demo-onest-pledge/certificate-pdf
+  redis:
+    image: redis:latest
   public-key-service:
-    image: dockerhub/sunbird-rc-public-key-service
+    image: dockerhub/sunbird-rc-public-key-service:${RELEASE_VERSION}
     environment:
       - CONFIG_BASE_PATH=/etc/keys
-    ports:
-      - "3300:3300"
     healthcheck:
       test: [ "CMD", "curl", "-f", "localhost:3300/public-key-service/api/v1/health" ]
       interval: 30s
@@ -146,10 +122,8 @@ services:
       retries: 10
     volumes:
       - ./imports:/etc/keys
-  onest-pledge-service:
-    image: sreejithk1903/onest-backend
-    ports:
-      - "8000:8000"
+  onest-donor-service:
+    image: ghcr.io/sunbird-rc/demo-onest-pledge/onest-donor-service:latest
     environment:
       - KEYCLOAK_URL=${KEYCLOAK_SSO_URL}
       - KEYCLOAK_REALM=${KEYCLOAK_REALM}
@@ -174,30 +148,17 @@ services:
       registry:
         condition: service_healthy
   onest-ui:
-    image: sreejithk1903/onest-ui:latest
+    image: ghcr.io/sunbird-rc/demo-onest-pledge/onest-ui:latest
     restart: always
     ports:
-      - "4200:4200"
-  # nginx:
-  #   image: dockerhub/sunbird-rc-nginx
-  #   ports:
-  #     - "80:80"
-  #   depends_on:
-  #     registry:
-  #       condition: service_healthy
-  #     context-proxy-service:
-  #       condition: service_started
-  #     public-key-service:
-  #       condition: service_started
-  #     keycloak:
-  #       condition: service_started
-  #     claim-ms:
-  #       condition: service_started
-  #     file-storage:
-  #       condition: service_started
-  #   healthcheck:
-  #     test: [ "CMD", "curl", "-f", "localhost:80" ]
-  #     interval: 30s
-  #     timeout: 10s
-  #     retries: 10
-    
+      - "88:80"
+    depends_on:
+         registry:
+           condition: service_healthy
+         public-key-service:
+           condition: service_started
+    healthcheck:
+     test: [ "CMD", "curl", "-f", "localhost:80" ]
+     interval: 30s
+     timeout: 10s
+     retries: 10

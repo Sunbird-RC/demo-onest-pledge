@@ -5,9 +5,9 @@
       "id": "@id",
       "type": "@type",
       "schema": "https://schema.org/",
-      "pledge": "https://raw.githubusercontent.com/Sreejit-K/onest-demo/master/context/vc-context.json",
-      "ProofOfOrganPledge": {
-        "@id": "schema:ProofOfOrganPledge",
+      "pledge": "https://raw.githubusercontent.com/Sunbird-RC/demo-onest-pledge/master/context/vc-context.json",
+      "ProofOfPledge": {
+        "@id": "schema:ProofOfPledge",
         "@context": {
           "id": "@id",
           "@version": 1.1,

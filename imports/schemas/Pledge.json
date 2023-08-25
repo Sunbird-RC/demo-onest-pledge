@@ -97,7 +97,7 @@
         ],
         "type": [
           "VerifiableCredential",
-          "ProofOfDonationPledge"
+          "ProofOfPledge"
         ],
         "id": "https://pledge.onest.network/pledgecredentials/{{osid}}",
         "issuer": "https://pledge.onest.network",
