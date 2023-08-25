@@ -24,7 +24,9 @@ export default function ScrollableTabsButtonPrevent() {
 
   const getData = async () => {
     const { data } = await _axios.get(`${baseUrl}/api/v1/Cause/getAllCauses`);
-    console.log(data);
+    let categories = new Set(data.map((i) => {return i?.causeType}));
+    categories = ["All", ...categories];
+    setCategories(categories);
     setCauses(data);
   };
   
@@ -80,7 +82,7 @@ export default function ScrollableTabsButtonPrevent() {
                 {/* <Row>
                     <CauseList causes={causes} causeType={selected}/>
                 </Row> */}
-                <AlignItems causes={causes} causeType={selected} />
+                <AlignItems causes={causes} causeType={selected} />     
             </>
            
 
