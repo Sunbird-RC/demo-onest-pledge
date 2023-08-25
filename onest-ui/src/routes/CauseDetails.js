@@ -140,6 +140,7 @@ function CauseDetails() {
         >   
                 <h6 style={{color:'#0F75BC'}}>About the fundraiser</h6>
                 <Typography  
+                style={{marginBottom: "60px"}}
                     variant="body2" 
                     color="text.secondary">
                     {cause?.description}

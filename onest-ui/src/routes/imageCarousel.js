@@ -36,6 +36,7 @@ export default function OnestCarousel( props ) {
                 component="img"
                 width="345"
                 height="140"
+                style={{zIndex: 0}}
                 image={`${item}`}
                 alt="green iguana"
           />)

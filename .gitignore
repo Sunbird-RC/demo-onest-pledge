@@ -10,3 +10,4 @@ donor-registry/src/assets/.DS_Store
 .DS_Store
 *.lock
 .env
+gateway/onest-ui/node_modules

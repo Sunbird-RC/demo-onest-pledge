@@ -72,9 +72,12 @@ export default function AlignItems(props) {
           borderRadius: 1
         }}
       >
-        {causeList.map((i) => {
-            return  < span style={{height: '450'}}>
-                <MultiActionAreaCard cause={i} />
+        {causeList.map((i,j) => {
+            return  < span style={{height: '450', margin:'10px'}}>
+                <MultiActionAreaCard cause={i}/>
+                {(j=== causeList.length-1) &&
+                    <div style={{"marginBottom": '60px'}}></div>
+                }
             </span > 
             // return <CauseCard  cause={i} />
             })
