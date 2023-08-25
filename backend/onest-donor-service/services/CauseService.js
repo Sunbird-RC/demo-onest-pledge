@@ -8,6 +8,16 @@ const { integer } = require("swagmock/lib/generators");
 
 const serviceUrl = `${REGISTRY_URL}/api/v1/Cause`;
 
+function sortByLatestUpdatedTime(a, b) {
+    const timeA = new Date(a.osUpdatedAt);
+    const timeB = new Date(b.osUpdatedAt);
+    
+    // Compare the timestamps
+    if (timeA < timeB) return -1; // If timeA is less, put it after timeB
+    if (timeA > timeB) return 1; // If timeA is greater, put it before timeB
+    return 0; // If timestamps are equal, order doesn't matter
+}
+
 async function getAllCauses() {
     try {
         let listOfCauses = await axios.post(`${serviceUrl}/search`, 
@@ -17,7 +27,8 @@ async function getAllCauses() {
 
             }
         });
-        return listOfCauses.data;
+        let sortedData = listOfCauses.data.sort(sortByLatestUpdatedTime)
+        return sortedData;
     } catch (error) {
         throw new Error({message: "Error while fectching causes"})
     }

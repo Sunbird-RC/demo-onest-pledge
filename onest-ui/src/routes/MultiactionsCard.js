@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { ThemeProvider, createTheme, maxHeight } from '@mui/system';
 import ProgressBar from 'react-bootstrap/ProgressBar';
 import OnestProgressBar from './progressBar';
+import OnestCarousel from './imageCarousel';
 
 
 
@@ -27,14 +28,30 @@ export default function MultiActionAreaCard(props) {
   return (
         <Card sx={{maxWidth: 345 , margin: '5px', padding: '4px'}}>
             <CardActionArea onClick={() => navigateToCauseDetails(props.cause)} sx={{maxHeight: "350"}}>
-                <CardMedia
+                {/* <CardMedia
                 component="img"
                 height="140"
                 image={`${props.cause.imageRef[0]}`}
                 alt="green iguana"
-                />
+                /> */}
+                {props?.cause?.imageRef?.length > 0 &&
+                  <CardMedia>
+                    <OnestCarousel setFocus={null} JSXelements={props?.cause?.imageRef} />
+                </CardMedia>}
+                {(props?.cause?.imageRef?.length === 0 && props?.cause?.videoURL.length > 0) &&
+
+                   <iframe width="350" height="200" style={{margin:'4px'}} src={props?.cause?.videoURL[0]} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen>
+    
+                    </iframe> 
+                }
                 <CardContent >
-                <Typography gutterBottom variant="h6" component="div">
+                <Typography gutterBottom variant="h6" component="div" sx={{
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        display: "-webkit-box",
+                        WebkitLineClamp: "2",
+                        WebkitBoxOrient: "vertical",
+                    }} >
                     {props.cause.name}
                 </Typography>
                 <Typography   sx={{

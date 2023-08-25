@@ -156,9 +156,6 @@ function Pledge(props) {
         }
         
        
-        
-        // setSubmissionResult(`Form submitted with Name: ${formData.name} and organisation: ${formData.organisation}`);
-        // setFormData({ name: '', organisation: '' });
       }
     };
 
